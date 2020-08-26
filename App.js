@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import {Animated, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {Animated, Dimensions, Image, StyleSheet, View} from 'react-native';
 import Data from "./src/data/Data";
 
 const {width, height} = Dimensions.get(`window`);
@@ -11,13 +11,49 @@ const CIRCLE_SIZE = width * 0.6;
 const DOT_SIZE = 40;
 
 
-const Item = ({imageUri, heading, description}) => {
+const Item = ({imageUri, heading, description, index, scrollX}) => {
+
+  const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
+
+  const scale = scrollX.interpolate({
+    inputRange,
+    outputRange: [0.2, 1, 0.2]
+  });
+
+  const translateXHeading = scrollX.interpolate({
+    inputRange,
+    outputRange: [width * 0.1, 0, -width * 0.1],
+  });
+
+  const translateXDescription = scrollX.interpolate({
+    inputRange,
+    outputRange: [width, 0, -width],
+  });
+
   return (
     <View style={styles.itemStyle}>
-      <Image source={imageUri} style={[styles.imageStyle]}/>
+      <Animated.Image source={imageUri} style={[styles.imageStyle, {transform: [{scale}]}]}/>
       <View style={styles.textContainer}>
-        <Text style={[styles.heading]}>{heading}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Animated.Text
+          style={[
+            styles.heading,
+            {
+              transform: [{translateX: translateXHeading}],
+            },
+          ]}
+        >
+          {heading}
+        </Animated.Text>
+        <Animated.Text
+          style={[
+            styles.description,
+            {
+              transform: [{translateX: translateXDescription}],
+            },
+          ]}
+        >
+          {description}
+        </Animated.Text>
       </View>
     </View>
   )
@@ -51,7 +87,7 @@ export default function App() {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         horizontal
-        renderItem={({item, index}) => <Item {...item}/>}
+        renderItem={({item, index}) => <Item {...item} index={index} scrollX={scrollX}/>}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {x: scrollX}}}], {useNativeDriver: true}
         )}

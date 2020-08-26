@@ -1,12 +1,15 @@
 import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import {Animated, Dimensions, FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {Animated, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import Data from "./src/data/Data";
 
 const {width, height} = Dimensions.get(`window`);
-const LOGO_WIDTH = 240;
+const TICKER_HEIGHT = 40;
+const LOGO_WIDTH = 220;
 const LOGO_HEIGHT = 40;
+const CIRCLE_SIZE = width * 0.6;
 const DOT_SIZE = 40;
+
 
 const Item = ({imageUri, heading, description}) => {
   return (
@@ -42,16 +45,20 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style='auto' hidden/>
-      <FlatList
+      <Animated.FlatList
         data={Data}
         keyExtractor={(item) => item.id}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         horizontal
         renderItem={({item, index}) => <Item {...item}/>}
+        onScroll={Animated.event(
+          [{nativeEvent: {contentOffset: {x: scrollX}}}], {useNativeDriver: true}
+        )}
+        scrollEventThrottle={16}
       />
       <Image style={styles.logo}
-             source={require("../reactnativeanimation/assets/alex.jpg")}/>
+             source={require("../reactnativeanimation/assets/logo.png")}/>
       <Pagination/>
     </View>
   );
@@ -117,5 +124,49 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: DOT_SIZE,
     color: "black"
-  }
+  },
+  paginationDot: {
+    width: DOT_SIZE * 0.3,
+    height: DOT_SIZE * 0.3,
+    borderRadius: DOT_SIZE * 0.15,
+  },
+  paginationDotContainer: {
+    width: DOT_SIZE,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paginationIndicator: {
+    width: DOT_SIZE,
+    height: DOT_SIZE,
+    borderRadius: DOT_SIZE / 2,
+    borderWidth: 2,
+    borderColor: '#eee',
+    position: 'absolute',
+  },
+  circleContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  circle: {
+    width: CIRCLE_SIZE,
+    height: CIRCLE_SIZE,
+    borderRadius: CIRCLE_SIZE / 2,
+    position: 'absolute',
+    top: '20%',
+  },
+  ticker: {
+    textTransform: 'uppercase',
+    fontSize: TICKER_HEIGHT,
+    lineHeight: TICKER_HEIGHT,
+    fontWeight: '800',
+    color: '#222',
+  },
+  tickerContainer: {
+    height: TICKER_HEIGHT,
+    overflow: 'hidden',
+    position: 'absolute',
+    top: 40,
+    left: 20,
+  },
 });

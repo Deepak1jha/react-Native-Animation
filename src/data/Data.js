@@ -2,17 +2,17 @@ export default [
   {
     id: 1,
     type: "ALex",
-    imageUri: require("../../assets/alex.jpg"),
+    imageUri: require("../../assets/pic4.png"),
     heading: "Vibrant color",
-    color: "#9dcdfa",
+    color: "#e01a4f",
     description:"Good Alex"
   },
   {
     id: 2,
     type: "Shoes",
-    imageUri: require("../../assets/background.jpg"),
+    imageUri: require("../../assets/one.png"),
     heading: "Black color",
-    color: "#9dcdfa",
+    color: "#f15946",
     description:"Good shoes"
   },
   {
@@ -20,7 +20,7 @@ export default [
     type: "BattelCreek",
     imageUri: require("../../assets/battlecreek.jpg"),
     heading: "Vibrant color",
-    color: "#9dcdfa",
+    color: "#f9c22e",
     description:"Good shoes"
   },
   {

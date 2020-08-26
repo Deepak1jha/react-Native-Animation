@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import {Animated, Dimensions, Image, StyleSheet, View} from 'react-native';
+import {Animated, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import Data from "./src/data/Data";
 
 const {width, height} = Dimensions.get(`window`);
@@ -14,6 +14,7 @@ const DOT_SIZE = 40;
 const Item = ({imageUri, heading, description, index, scrollX}) => {
 
   const inputRange = [(index - 1) * width, index * width, (index + 1) * width];
+  const inputRangeOpacity = [(index - .3) * width, index * width, (index + .3) * width];
 
   const scale = scrollX.interpolate({
     inputRange,
@@ -30,6 +31,11 @@ const Item = ({imageUri, heading, description, index, scrollX}) => {
     outputRange: [width, 0, -width],
   });
 
+  const opacity = scrollX.interpolate({
+    inputRange: inputRangeOpacity,
+    outputRange: [0, 1, 0],
+  });
+
   return (
     <View style={styles.itemStyle}>
       <Animated.Image source={imageUri} style={[styles.imageStyle, {transform: [{scale}]}]}/>
@@ -38,6 +44,7 @@ const Item = ({imageUri, heading, description, index, scrollX}) => {
           style={[
             styles.heading,
             {
+              opacity,
               transform: [{translateX: translateXHeading}],
             },
           ]}
@@ -48,6 +55,7 @@ const Item = ({imageUri, heading, description, index, scrollX}) => {
           style={[
             styles.description,
             {
+              opacity,
               transform: [{translateX: translateXDescription}],
             },
           ]}
@@ -58,6 +66,76 @@ const Item = ({imageUri, heading, description, index, scrollX}) => {
     </View>
   )
 }
+
+const Ticker = ({scrollX}) => {
+  return (
+    <View style={styles.tickerContainer}>
+      <Animated.View
+        style={{
+          transform: [
+            {
+              translateY: scrollX.interpolate({
+                inputRange: [-width * 2, -width, 0, width, width * 2],
+                outputRange: [
+                  TICKER_HEIGHT * 2,
+                  TICKER_HEIGHT,
+                  0,
+                  -TICKER_HEIGHT,
+                  -TICKER_HEIGHT * 2,
+                ],
+              }),
+            },
+          ],
+        }}
+      >
+        {Data.map(({type}, index) => {
+          return (
+            <Text key={index} style={styles.ticker}>
+              {type}
+            </Text>
+          );
+        })}
+      </Animated.View>
+    </View>
+  );
+};
+
+const Circle = ({scrollX}) => {
+  return (
+    <View style={[StyleSheet.absoluteFillObject, styles.circleContainer]}>
+      {Data.map((p, index) => {
+        const inputRange = [
+          (index - 0.55) * width,
+          index * width,
+          (index + 0.55) * width,
+        ];
+        return (
+          <Animated.View
+            key={index}
+            style={[
+              styles.circle,
+              {
+                backgroundColor: p.color,
+                opacity: scrollX.interpolate({
+                  inputRange,
+                  outputRange: [0, 0.1, 0],
+                }),
+                transform: [
+                  {
+                    scale: scrollX.interpolate({
+                      inputRange,
+                      outputRange: [0, 1, 0],
+                    }),
+                  },
+                ],
+              },
+            ]}
+          />
+        );
+      })}
+    </View>
+  );
+};
 
 const Pagination = () => {
   return (
@@ -81,6 +159,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style='auto' hidden/>
+      <Circle scrollX={scrollX}/>
       <Animated.FlatList
         data={Data}
         keyExtractor={(item) => item.id}
@@ -96,6 +175,7 @@ export default function App() {
       <Image style={styles.logo}
              source={require("../reactnativeanimation/assets/logo.png")}/>
       <Pagination/>
+      <Ticker scrollX={scrollX}/>
     </View>
   );
 }

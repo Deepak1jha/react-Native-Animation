@@ -137,17 +137,29 @@ const Circle = ({scrollX}) => {
   );
 };
 
-const Pagination = () => {
+const Pagination = ({scrollX}) => {
+  const translateX = scrollX.interpolate({
+    inputRange: Data.map((_, i) => i * width),
+    outputRange: Data.map((_, i) => i * 40),
+  });
   return (
     <View style={styles.pagination}>
+      <Animated.View
+        style={[
+          styles.paginationIndicator,
+          {
+            transform: [{translateX}],
+          },
+        ]}
+      />
       {Data.map((item) => {
         return (
-          <View key={item.id} style={styles.paginationDotContainer}>
-            <View style={[styles.paginationDot, {backgorundColor: item.color}]}>
-
-            </View>
+          <View key={item.key} style={styles.paginationDotContainer}>
+            <View
+              style={[styles.paginationDot, {backgroundColor: item.color}]}
+            />
           </View>
-        )
+        );
       })}
     </View>
   )
@@ -173,8 +185,8 @@ export default function App() {
         scrollEventThrottle={16}
       />
       <Image style={styles.logo}
-             source={require("../reactnativeanimation/assets/logo.png")}/>
-      <Pagination/>
+             source={require("../reactnativeanimation/assets/adidasLogo.png")}/>
+      <Pagination scrollX={scrollX}/>
       <Ticker scrollX={scrollX}/>
     </View>
   );

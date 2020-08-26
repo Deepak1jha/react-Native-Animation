@@ -1,58 +1,34 @@
 export default [
   {
     id: 1,
-    type: "ALex",
-    imageUri: require("../../assets/pic4.png"),
-    heading: "Vibrant color",
-    color: "#e01a4f",
-    description:"Good Alex"
+    type: "ULTRABOOST 20",
+    imageUri: require("../../assets/shoes.png"),
+    heading: "DARKRED",
+    color: "#C71585",
+    description: "ADIDAS has its roots in Germany but is a truly global company."
   },
   {
     id: 2,
-    type: "Shoes",
-    imageUri: require("../../assets/one.png"),
-    heading: "Black color",
-    color: "#f15946",
-    description:"Good shoes"
+    type: "Pro Bounce",
+    imageUri: require("../../assets/show4.png"),
+    heading: "BLUEVIOLET",
+    color: "#008000",
+    description: "This is a genuine product of adidas India Marketing Private Ltd"
   },
   {
     id: 3,
-    type: "BattelCreek",
-    imageUri: require("../../assets/battlecreek.jpg"),
-    heading: "Vibrant color",
-    color: "#f9c22e",
-    description:"Good shoes"
+    type: "Terrex Free",
+    imageUri: require("../../assets/shoes3.png"),
+    heading: "SEAGREEN",
+    color: "#4169E1",
+    description: "This is a genuine product of adidas India Marketing Private Ltd"
   },
   {
     id: 4,
-    type: "Giogio",
-    imageUri: require("../../assets/giorgio.jpg"),
-    heading: "Vibrant color",
+    type: "Xaphan Mid",
+    imageUri: require("../../assets/shoes2.png"),
+    heading: "DARKCYAN",
     color: "#9dcdfa",
-    description:"Good shoes"
-  },
-  {
-    id: 5,
-    type: "Mae",
-    imageUri: require("../../assets/mae.jpg"),
-    heading: "Vibrant color",
-    color: "#9dcdfa",
-    description:"Good shoes"
-  },
-  {
-    id: 6,
-    type: "Malte",
-    imageUri: require("../../assets/malte.jpg"),
-    heading: "Vibrant color",
-    color: "#9dcdfa",
-    description:"Good shoes"
-  },
-  {
-    id: 7,
-    type: "Watch",
-    imageUri: require("../../assets/watch.jpg"),
-    heading: "Vibrant color",
-    color: "#9dcdfa",
-    description:"Good shoes"
+    description: "This is a genuine product of adidas India Marketing Private Ltd"
   }
 ]
